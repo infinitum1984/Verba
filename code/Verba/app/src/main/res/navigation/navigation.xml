@@ -9,5 +9,37 @@
         android:id="@+id/wordsListFragment"
         android:name="com.emptydev.vebra.wordslist.WordsListFragment"
         android:label="words_list_fragment"
-        tools:layout="@layout/words_list_fragment" />
+        tools:layout="@layout/words_list_fragment" >
+
+        <action
+            android:id="@+id/action_wordsListFragment_to_editWordsFragment"
+            app:destination="@id/editWordsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/editWordsFragment"
+        android:name="com.emptydev.vebra.editwords.EditWordsFragment"
+        android:label="EditWordsFragment"
+        tools:layout="@layout/edit_words_fragment"
+        >
+        <argument
+            android:name="wordsKey"
+            app:argType="long"
+            />
+        <action
+            android:id="@+id/action_editWordsFragment_to_wordsListFragment"
+            app:destination="@id/wordsListFragment" />
+        <action
+            android:id="@+id/action_editWordsFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingFragment"
+        android:name="com.emptydev.vebra.training.TrainingFragment"
+        android:label="training_fragment"
+        tools:layout="@layout/training_fragment" >
+        <action
+            android:id="@+id/action_trainingFragment_to_editWordsFragment"
+            app:destination="@id/editWordsFragment" />
+    </fragment>
 </navigation>

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009FFF</color>
-    <color name="colorPrimaryDark">#0F4581</color>
-    <color name="colorAccent">#ec2F4B</color>
-    <color name="word_item_color">#1565C0</color>
+    <!--var1-->
+<!--    <color name="colorPrimary">#5D58FC</color>-->
+<!--    <color name="colorPrimaryDark">#5D58FC</color>-->
+<!--    <color name="colorAccent">#ec2F4B</color>-->
+<!--    <color name="word_item_color">#5D58FC</color>-->
+
+    <!--var2c-->
+        <color name="colorPrimary">#A65EFD</color>
+        <color name="colorPrimaryDark">#FFA65EFD</color>
+        <color name="colorAccent">#ec2F4B</color>
+        <color name="word_item_color">#9543F8</color>
+        <color name="gradient_start">#B874FB</color>
+             <color name="gradient_end">#A273ED</color>
 </resources>

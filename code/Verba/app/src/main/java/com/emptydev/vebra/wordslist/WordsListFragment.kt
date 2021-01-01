@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.emptydev.vebra.R
 import com.emptydev.vebra.database.WordsDatabase
 import com.emptydev.vebra.databinding.WordsListFragmentBinding
@@ -35,6 +36,18 @@ class WordsListFragment : Fragment() {
 
             adapter.setData(it)
 
+        })
+        viewModel.navigateToEditWords.observe(viewLifecycleOwner, Observer {
+
+           this.findNavController()
+                   .navigate(WordsListFragmentDirections.actionWordsListFragmentToEditWordsFragment(it.wordId))
+        })
+        viewModel.createWordListNavigate.observe(viewLifecycleOwner, Observer {
+            if (it){
+                this.findNavController()
+                        .navigate(WordsListFragmentDirections.actionWordsListFragmentToEditWordsFragment(-1))
+                viewModel.createWordListNavigate.value=false
+            }
         })
 
         return binding.root
