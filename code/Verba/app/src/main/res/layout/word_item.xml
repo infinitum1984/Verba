@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
+    android:id="@+id/main_view"
+    >
 
-    <ImageView
-        android:id="@+id/words_image"
+    <ProgressBar
+        android:id="@+id/words_progress"
+        style="@style/CircularDeterminateProgressBar"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_marginStart="16dp"
@@ -16,7 +21,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_book" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/words_name"
@@ -24,13 +29,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/words_image"
-        app:layout_constraintTop_toTopOf="@+id/words_image"
+        app:layout_constraintEnd_toStartOf="@+id/playButton"
+        app:layout_constraintStart_toEndOf="@+id/words_progress"
+        app:layout_constraintTop_toTopOf="@+id/words_progress"
         tools:text="Main words" />
 
     <TextView
@@ -38,9 +43,37 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/words_name"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/playButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/words_name"
         app:layout_constraintTop_toBottomOf="@+id/words_name"
         tools:text="words: 12" />
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100%"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/words_progress"
+        app:layout_constraintEnd_toEndOf="@+id/words_progress"
+        app:layout_constraintStart_toStartOf="@+id/words_progress"
+        app:layout_constraintTop_toTopOf="@+id/words_progress" />
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_play"
+        android:background="@drawable/bg_buttoncircle"
+        android:padding="5dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

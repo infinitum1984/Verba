@@ -7,18 +7,22 @@
 
     <fragment
         android:id="@+id/wordsListFragment"
-        android:name="com.emptydev.vebra.wordslist.WordsListFragment"
+        android:name="com.emptydev.verba.wordslist.WordsListFragment"
         android:label="words_list_fragment"
         tools:layout="@layout/words_list_fragment" >
 
         <action
             android:id="@+id/action_wordsListFragment_to_editWordsFragment"
-            app:destination="@id/editWordsFragment" />
+            app:destination="@id/editWordsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_wordsListFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/editWordsFragment"
-        android:name="com.emptydev.vebra.editwords.EditWordsFragment"
+        android:name="com.emptydev.verba.editwords.EditWordsFragment"
         android:label="EditWordsFragment"
         tools:layout="@layout/edit_words_fragment"
         >
@@ -31,15 +35,54 @@
             app:destination="@id/wordsListFragment" />
         <action
             android:id="@+id/action_editWordsFragment_to_trainingFragment"
-            app:destination="@id/trainingFragment" />
+            app:destination="@id/trainingFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/trainingFragment"
-        android:name="com.emptydev.vebra.training.TrainingFragment"
+        android:name="com.emptydev.verba.training.TrainingFragment"
         android:label="training_fragment"
         tools:layout="@layout/training_fragment" >
         <action
             android:id="@+id/action_trainingFragment_to_editWordsFragment"
             app:destination="@id/editWordsFragment" />
+        <argument
+            android:name="wordsKey"
+            app:argType="long" />
+        <argument
+            android:name="trainingType"
+            app:argType="com.emptydev.verba.training.TrainingType" />
+        <action
+            android:id="@+id/action_trainingFragment_to_finishFragment"
+            app:destination="@id/finishFragment" />
+        <action
+            android:id="@+id/action_trainingFragment_to_wordsListFragment"
+            app:destination="@id/wordsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finishFragment"
+        android:name="com.emptydev.verba.finish.FinishFragment"
+        android:label="finish_fragment"
+        tools:layout="@layout/finish_fragment" >
+        <action
+            android:id="@+id/action_finishFragment_to_trainingFragment"
+            app:destination="@id/trainingFragment" />
+        <action
+            android:id="@+id/action_finishFragment_to_editWordsFragment"
+            app:destination="@id/editWordsFragment" />
+        <action
+            android:id="@+id/action_finishFragment_to_wordsListFragment"
+            app:destination="@id/wordsListFragment" />
+        <argument
+            android:name="wordKey"
+            app:argType="long"
+            />
+        <argument
+            android:name="numCorrect"
+            app:argType="integer" />
+        <argument
+            android:name="numException"
+            app:argType="integer" />
     </fragment>
 </navigation>

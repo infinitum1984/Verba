@@ -1,4 +1,4 @@
-package com.emptydev.vebra
+package com.emptydev.verba
 
 import org.junit.Test
 
@@ -11,7 +11,9 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testArrayToStr() {
+        print("TEST")
+        val arrTest=stringToArray("test1\ntest2\ntest3\ntest4\ntest4\ntest5\ntest6\ntest7\ntest8\n")
+        print(arrTest)
     }
 }

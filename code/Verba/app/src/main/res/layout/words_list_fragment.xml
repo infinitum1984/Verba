@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.emptydev.vebra.wordslist.WordsListViewModel" />
+            type="com.emptydev.verba.wordslist.WordsListViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
 
