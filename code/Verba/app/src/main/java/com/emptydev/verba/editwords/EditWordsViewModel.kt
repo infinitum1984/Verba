@@ -37,6 +37,9 @@ class EditWordsViewModel(
     private val _onSetDeleted=MutableLiveData<Boolean?>()
     val onSetDeleted:LiveData<Boolean?> get()=_onSetDeleted
 
+    private val _textSaved=MutableLiveData<Boolean?>()
+    val textSaved:LiveData<Boolean?> get()=_textSaved
+
     fun onEditSetName(){
         if (!onEditSetName.value.isNullOrEmpty() ){
             _onSaveSetName.value=true
@@ -57,6 +60,9 @@ class EditWordsViewModel(
     }
     fun onSaveSet(){
         if (_onTextChanged.value==true) {
+            Log.d("D_EditWordsViewModel","onSaveSet: text save");
+            _textSaved.value=false
+
             _onSaveSet.value = true
         }else{
             _onPlaySet.value=true
@@ -70,6 +76,8 @@ class EditWordsViewModel(
             wordsSet.value!!.words=mapStr
             wordsSet.value!!.numWords=map.size
             update(wordsSet.value!!)
+            _textSaved.value=true
+            _onTextChanged.value=false
         }
     }
     private suspend fun update(set:Words){

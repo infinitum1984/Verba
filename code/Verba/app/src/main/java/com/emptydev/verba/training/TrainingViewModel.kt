@@ -5,13 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.emptydev.verba.arrayToString
-import com.emptydev.verba.arrayToStringRevers
+import com.emptydev.verba.*
 import com.emptydev.verba.database.Words
 import com.emptydev.verba.database.WordsDatabase
 import com.emptydev.verba.database.WordsDatabaseDao
-import com.emptydev.verba.stringToPairArray
-import com.emptydev.verba.stringToPairArrayRevers
 
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -34,8 +31,8 @@ class TrainingViewModel(val wordsKey:Long,val database:WordsDatabaseDao, val tra
     private val _onShowMistake=MutableLiveData<Boolean>()
     val onShowMistake:LiveData<Boolean> get() = _onShowMistake
 
-    private val _onChangeBtnText=MutableLiveData<String>()
-    val onChangeBtnText:LiveData<String> get() = _onChangeBtnText
+    private val _onChangeBtnText=MutableLiveData<Int>()
+    val onChangeBtnText:LiveData<Int> get() = _onChangeBtnText
 
     private val _onVerifyWords=MutableLiveData<Boolean>()
     val onVerifyWords:LiveData<Boolean> get() = _onVerifyWords
@@ -59,6 +56,7 @@ class TrainingViewModel(val wordsKey:Long,val database:WordsDatabaseDao, val tra
             var map:List<Pair<String,String>>
 
             when(trainingType){
+
                 TrainingType.BASIC -> {
                     map= stringToPairArray(wordsObject.words)
 
@@ -72,6 +70,7 @@ class TrainingViewModel(val wordsKey:Long,val database:WordsDatabaseDao, val tra
                 }
 
             }
+
             for (it in map){
                 Words.add(it)
             }
@@ -93,7 +92,7 @@ class TrainingViewModel(val wordsKey:Long,val database:WordsDatabaseDao, val tra
             curStateVerify=false
         }else{
             curStateVerify=true
-            _onChangeBtnText.value="Verify"
+            _onChangeBtnText.value=R.string.verify
             _onShowMistake.value=null
             nextPair()
         }
@@ -125,7 +124,7 @@ class TrainingViewModel(val wordsKey:Long,val database:WordsDatabaseDao, val tra
             _mistakes.value=Mistakes
             _onShowMistake.value=true
         }
-        _onChangeBtnText.value="Next"
+        _onChangeBtnText.value=R.string.next
 
     }
     fun saveResults(){

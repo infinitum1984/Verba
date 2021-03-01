@@ -31,7 +31,7 @@ class FinishFragment : Fragment() {
         viewModel=ViewModelProvider(this,viewModelFactory).get(FinishViewModel::class.java)
         binding.viewModel=viewModel
         viewModel.numMistakes.observe(viewLifecycleOwner, Observer {
-            binding.tvMistakes.setText("Mistakes: ${it.first}/${it.second}")
+            binding.tvMistakes.setText("${requireContext().getString(R.string.mistake)} ${it.first}/${it.second}")
         })
         viewModel.goodPercent.observe(viewLifecycleOwner, Observer {
             val precents=it!!.roundToInt()

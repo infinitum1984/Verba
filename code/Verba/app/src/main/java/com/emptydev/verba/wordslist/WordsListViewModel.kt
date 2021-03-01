@@ -18,6 +18,12 @@ class WordsListViewModel(private val database: WordsDatabaseDao,
     private val _navigateToEditWords = MutableLiveData<Long>()
     val navigateToEditWords:LiveData<Long> get()=_navigateToEditWords
     val createWordListNavigate=MutableLiveData<Boolean?>()
+
+    private val _onFastPlaySet = MutableLiveData<Long>()
+    val onFastPlaySet:LiveData<Long> get()=_onFastPlaySet
+
+    private val _setIsEmpty = MutableLiveData<Boolean>()
+    val setIsEmpty:LiveData<Boolean> get()=_setIsEmpty
     fun onAdd(){
         Log.d("D_WordsListViewModel", "onAdd: ")
         viewModelScope.launch {
@@ -38,6 +44,17 @@ class WordsListViewModel(private val database: WordsDatabaseDao,
     private suspend fun insert(night: Words):Long {
 
         return database.insert(night)
+    }
+    fun fastPlaySet(wordsId:Long){
+        viewModelScope.launch {
+            val wordsObject=database.get(wordsId)
+
+            if (wordsObject.numWords==0) {
+                _setIsEmpty.value = true
+            }else{
+                _onFastPlaySet.value=wordsId
+            }
+        }
     }
     fun deleteSet(id:Long){
         viewModelScope.launch {

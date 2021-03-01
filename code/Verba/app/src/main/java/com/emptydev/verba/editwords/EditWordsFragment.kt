@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -45,9 +46,15 @@ class EditWordsFragment : Fragment() {
             R.id.action_delete->DeleteDialog(requireContext(),{
                 viewModel.deleteSet()
             }).show()
+            R.id.action_home->goToHome()
         }
         return true
     }
+
+    private fun goToHome() {
+        findNavController().navigate(EditWordsFragmentDirections.actionEditWordsFragmentToWordsListFragment())
+    }
+
     fun setupToolBar(){
         //binding.edWordsToolbar.title=viewModel.wordsSet.value!!.name
     }
@@ -58,13 +65,15 @@ class EditWordsFragment : Fragment() {
             binding.textView.text=it?.name
             binding.textView.visibility=View.VISIBLE
             binding.setNameLayout.visibility=View.INVISIBLE
-            binding.imageButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_edit))
+            binding.imageButton.setImageResource(R.drawable.ic_edit)
 
             val setStrings= arrayToPairStrings(stringToPairArray(it.words))
             binding.primaryText.setText(setStrings.first)
             binding.translatedText.setText(setStrings.second)
-            binding.fabPlay.setImageDrawable(requireContext().getDrawable(R.drawable.ic_play))
+            binding.fabPlay.setImageResource(R.drawable.ic_play)
             setupToolBar()
+
+
 
         })
         viewModel.onEditSetName.observe(viewLifecycleOwner, Observer {
@@ -72,7 +81,7 @@ class EditWordsFragment : Fragment() {
                 binding.textView.visibility = View.GONE
                 binding.setNameLayout.visibility = View.VISIBLE
                 binding.edWordsName.setText(it!!)
-                binding.imageButton.setImageDrawable(requireContext().getDrawable(R.drawable.ic_check))
+                binding.imageButton.setImageResource(R.drawable.ic_check)
             }
         })
         viewModel.onSaveSetName.observe(viewLifecycleOwner, Observer {
@@ -81,6 +90,7 @@ class EditWordsFragment : Fragment() {
             }
         })
         viewModel.onSaveSet.observe(viewLifecycleOwner, Observer {
+            Log.d("D_EditWordsFragment","onActivityCreated: save set");
             val primaryText=binding.primaryText.text.toString().trim()
             val translatedText=binding.translatedText.text.toString().trim()
             if (primaryText.isEmpty()){
@@ -91,7 +101,7 @@ class EditWordsFragment : Fragment() {
                 showExceptionInputEmpty(binding.fabPlay)
                 return@Observer
             }
-            val arrPrimary= stringToArray(primaryText)
+            val   arrPrimary= stringToArray(primaryText)
             val arrTranslate= stringToArray(translatedText)
             if (arrPrimary.size!=arrTranslate.size){
                 showExceptionInputNoneEqual(binding.fabPlay)
@@ -106,9 +116,12 @@ class EditWordsFragment : Fragment() {
         })
         viewModel.onPlaySet.observe(viewLifecycleOwner, Observer {
             if (it==true) {
-
-                findNavController().navigate(EditWordsFragmentDirections.actionEditWordsFragmentToTrainingFragment(viewModel.wordsSet.value!!.wordId, processType()))
-                viewModel.onSetPlayed()
+                if (viewModel.wordsSet.value!!.numWords!=0) {
+                    findNavController().navigate(EditWordsFragmentDirections.actionEditWordsFragmentToTrainingFragment(viewModel.wordsSet.value!!.wordId, processType()))
+                    viewModel.onSetPlayed()
+                }else{
+                    showExceptionInputEmpty(binding.fabPlay)
+                }
             }
         })
         viewModel.onShowLastMistakes.observe(viewLifecycleOwner, Observer {
@@ -121,28 +134,92 @@ class EditWordsFragment : Fragment() {
                 findNavController().navigate(EditWordsFragmentDirections.actionEditWordsFragmentToWordsListFragment())
             }
         })
-        binding.translatedText.setOnClickListener {
-            binding.fabPlay.setImageDrawable(requireContext().getDrawable(R.drawable.ic_save))
-            viewModel.onTextChanged()
+        viewModel.textSaved.observe(viewLifecycleOwner, Observer {
+            if (it==true){
+                showTextSavedToast(binding.fabPlay)
+            }
+        })
+
+        binding.translatedText.doOnTextChanged { text, start, before, count ->
+            Log.d("D_EditWordsFragment","onActivityCreated: ${text!!.toString().trim()} ${before!!.toString().trim()}");
+            if (text==null) return@doOnTextChanged
+            if (before==null) return@doOnTextChanged
+
+            if (containSavedTranslated(text)) return@doOnTextChanged
+            if (!text.toString().trim().equals(before.toString().trim())) {
+                binding.fabPlay.post {
+                    binding.fabPlay.setImageResource(R.drawable.ic_save)
+                }
+                viewModel.onTextChanged()
+                Log.d("D_EditWordsFragment","onActivityCreated: text changed");
+
+            }
         }
+        binding.primaryText.doOnTextChanged { text, start, before, count ->
+            Log.d("D_EditWordsFragment","onActivityCreated: ${text!!.toString().trim()} ${before!!.toString().trim()}");
+            if (text==null) return@doOnTextChanged
+            if (before==null) return@doOnTextChanged
 
-        binding.primaryText.setOnClickListener {
-            binding.fabPlay.setImageDrawable(requireContext().getDrawable(R.drawable.ic_save))
-            viewModel.onTextChanged()
+            if (containSavedLearning(text)) return@doOnTextChanged
+
+            if (!text.toString().trim().equals(before.toString().trim())) {
+                binding.fabPlay.post {
+                    binding.fabPlay.setImageResource(R.drawable.ic_save)
+                }
+                viewModel.onTextChanged()
+                Log.d("D_EditWordsFragment","onActivityCreated: text changed");
+            }
         }
+    }
+
+    private fun containSavedTranslated(text: CharSequence): Boolean {
+        val textString=text.toString().trim()
+        val textArr= stringToArray(textString)
+        val pairArr=stringToPairArray(viewModel.wordsSet.value!!.words)
+
+        if (textArr.size!=pairArr.size) return false
+
+        for(i in (0..pairArr.size-1)){
+            if (!pairArr[i].second.equals(textArr[i])){
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun containSavedLearning(text: CharSequence): Boolean {
+        val textString=text.toString().trim()
+        val textArr= stringToArray(textString)
+        val pairArr=stringToPairArray(viewModel.wordsSet.value!!.words)
+
+        if (textArr.size!=pairArr.size) return false
+
+        for(i in (0..pairArr.size-1)){
+            if (!pairArr[i].first.equals(textArr[i])){
+                return false
+            }
+        }
+        return true
+    }
 
 
+    private fun showTextSavedToast(v:View) {
+        Snackbar.make(v,getString(R.string.text_saved),Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showSetIsEmpty() {
+        TODO("Not yet implemented")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_edit_words, menu)
     }
     private fun showExceptionInputEmpty(view:View){
-        Snackbar.make(view,"Input field is empty!",Snackbar.LENGTH_LONG).show()
+        Snackbar.make(view,getString(R.string.input_field_empty),Snackbar.LENGTH_LONG).show()
 
     }
     private fun showExceptionInputNoneEqual(view: View){
-        Snackbar.make(view,"Different number of words in fields!",Snackbar.LENGTH_LONG).show()
+        Snackbar.make(view,getString(R.string.different_number_words),Snackbar.LENGTH_LONG).show()
     }
     private fun processType():TrainingType{
         val revers=binding.switchRevers.isChecked

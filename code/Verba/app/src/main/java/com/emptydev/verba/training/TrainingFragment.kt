@@ -58,7 +58,7 @@ class TrainingFragment : Fragment() {
         })
         viewModel.onChangeBtnText.observe(viewLifecycleOwner, Observer {
             if (it!=null){
-                binding.button.text=it
+                binding.button.text=requireContext().getString(it)
             }
         })
         viewModel.onVerifyWords.observe(viewLifecycleOwner, Observer {
@@ -79,24 +79,24 @@ class TrainingFragment : Fragment() {
     }
 
     private fun showRight() {
-       binding.tvResult.setText("Right")
+       binding.tvResult.setText(getString(R.string.right))
 
         binding.tvResult.visibility=View.VISIBLE
 
     }
     private fun showWordNum(nums:Pair<Int,Int>){
-        binding.tvNumWords.text="Word: ${nums.first}/${nums.second}"
+        binding.tvNumWords.text="${requireContext().getString(R.string.word)}: ${nums.first}/${nums.second}"
     }
     private fun showMistake() {
         this.vibratePhone()
 
-        binding.tvResult.setText("Mistake")
+        binding.tvResult.setText(requireContext().getString(R.string.mistake))
 
         binding.tvResult.visibility=View.VISIBLE
 
     }
     private fun showNumMistakes(num: Int){
-        binding.tvNumMistackes.text="Mistakes: ${num}"
+        binding.tvNumMistackes.text="${requireContext().getString(R.string.mistake)}: ${num}"
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

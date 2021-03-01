@@ -14,10 +14,19 @@
         <action
             android:id="@+id/action_wordsListFragment_to_editWordsFragment"
             app:destination="@id/editWordsFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_wordsListFragment_to_trainingFragment"
-            app:destination="@id/trainingFragment" />
+            app:destination="@id/trainingFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
 
     </fragment>
     <fragment
@@ -32,12 +41,21 @@
             />
         <action
             android:id="@+id/action_editWordsFragment_to_wordsListFragment"
-            app:destination="@id/wordsListFragment" />
+            app:destination="@id/wordsListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_editWordsFragment_to_trainingFragment"
             app:destination="@id/trainingFragment"
             app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/trainingFragment"
@@ -46,7 +64,12 @@
         tools:layout="@layout/training_fragment" >
         <action
             android:id="@+id/action_trainingFragment_to_editWordsFragment"
-            app:destination="@id/editWordsFragment" />
+            app:destination="@id/editWordsFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
         <argument
             android:name="wordsKey"
             app:argType="long" />
@@ -55,10 +78,20 @@
             app:argType="com.emptydev.verba.training.TrainingType" />
         <action
             android:id="@+id/action_trainingFragment_to_finishFragment"
-            app:destination="@id/finishFragment" />
+            app:destination="@id/finishFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
         <action
             android:id="@+id/action_trainingFragment_to_wordsListFragment"
-            app:destination="@id/wordsListFragment" />
+            app:destination="@id/wordsListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
     </fragment>
     <fragment
         android:id="@+id/finishFragment"
@@ -66,14 +99,23 @@
         android:label="finish_fragment"
         tools:layout="@layout/finish_fragment" >
         <action
-            android:id="@+id/action_finishFragment_to_trainingFragment"
-            app:destination="@id/trainingFragment" />
-        <action
             android:id="@+id/action_finishFragment_to_editWordsFragment"
-            app:destination="@id/editWordsFragment" />
+            app:destination="@id/editWordsFragment"
+            app:popUpTo="@id/wordsListFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
         <action
             android:id="@+id/action_finishFragment_to_wordsListFragment"
-            app:destination="@id/wordsListFragment" />
+            app:destination="@id/wordsListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
+            />
         <argument
             android:name="wordKey"
             app:argType="long"

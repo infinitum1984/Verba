@@ -18,7 +18,7 @@ class WordsListHolder(val view : View):RecyclerView.ViewHolder(view){
 
     val mainView: ConstraintLayout=view.findViewById(R.id.main_view)
     fun bind(item: Words,itemClick:(Long)->Unit,onOptions:(Long,Action)->Unit){
-        numWords.text="words: ${item.numWords}"
+        numWords.text="${view.context!!.getString(R.string.words)}: ${item.numWords}"
         nameWords.text="${item.name}"
         mainView.isLongClickable=true
         mainView.setTag(item.wordId)

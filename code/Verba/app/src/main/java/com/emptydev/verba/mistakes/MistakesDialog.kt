@@ -43,7 +43,7 @@ class MistakesDialog(val content:String):DialogFragment() {
 
         val clip = ClipData.newPlainText("Mistakes", tvMistakes.text.toString())
         clipboard!!.setPrimaryClip(clip)
-        Toast.makeText(context!!,"Text copied!",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context!!,getString(R.string.text_copied),Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
